@@ -19,25 +19,30 @@ public class MovieController {
     @Autowired
     MovieService movieService;
 
-    @GetMapping(value = "/movies")
-    public ResponseEntity<Movie> getMovie(@RequestParam String title ) {
-        Movie movie = movieService.getMoviesByTitle();
+    @GetMapping
+    public ResponseEntity<List<Movie>> getMovie() {
+       List <Movie> movies = movieService.getMoviesByTitle();
+        return new ResponseEntity<>(movies, HttpStatus.CREATED);
 
     }
 
-    @GetMapping(value = "/movies")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Movie> getMovieById(@PathVariable long id ) {
-        Optional movie = movieService.getMovieById(id);
+        Optional <Movie> movies = movieService.getMovieById(id);
+//        if statements from reveiw
+        if(movies.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(movies.get(), HttpStatus.NOT_FOUND);
 
     }
 
-    @PostMapping(value = "/{id}")
-    public ResponseEntity<Movie> addMovies (@PathVariable long id, @RequestBody Movie  movie){
-        Movie newMovie = movieService.addNewMovie ( movie);
-        return new ResponseEntity<>(newMovie, HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<Movie> addedMovies( @RequestBody Movie movie){
+        movieService.addNewMovie ( movie);
+        return new ResponseEntity<>(movie, HttpStatus.CREATED);
 
     }
-
 
 
 

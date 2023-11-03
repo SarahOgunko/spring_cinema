@@ -12,18 +12,18 @@ import java.util.Optional;
 
 @Service
 public class MovieService {
-    MovieRepository movieRepository;
-    Movie movie;
-
 
     @Autowired
+    MovieRepository movieRepository;
+//    Movie movie;
 
-    public MovieService(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
-    }
+// constructor is not needed in the service layer
+//    public MovieService(MovieRepository movieRepository) {
+//        this.movieRepository = movieRepository;
+//    }
 
-    public String getMoviesByTitle(){
-        return movie.getTitle();
+    public List<Movie> getMoviesByTitle(){
+        return movieRepository.findAll();
     }
 
     public Optional <Movie> getMovieById(Long id){
